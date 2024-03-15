@@ -1,0 +1,11 @@
+from flask import request, jsonify
+from app import app, db
+from app.models import Employee
+
+@app.route('/api/employees', methods=['POST'])
+def add_employee():
+    data = request.get_json()
+    employee = Employee(name=data['name'], designation=data['designation'], department=data['department'], date_of_joining=data['date_of_joining'])
+    db.session.add(employee)
+    db.session.commit()
+    return jsonify({'message': 'Employee added'})
